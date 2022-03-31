@@ -2,8 +2,8 @@
  * Created by: Ava Fritts
  * Date Created: March 16, 2022
  * 
- * Last Edited by: NA
- * Last Edited: March 21, 2022
+ * Last Edited by: Ava Fritts
+ * Last Edited: March 30, 2022
  * 
  * Description: Hero ship controller
 ****/
@@ -43,6 +43,13 @@ public class Hero : MonoBehaviour
     public float speed = 10;
     public float rollMult = -45;
     public float pitchMult = 30;
+
+    [Space(10)]
+
+    [Header("Ship Movement")]
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 5;
+    //public float pitchMult = 30;
 
 
 
@@ -105,7 +112,11 @@ public class Hero : MonoBehaviour
         //rotate the ship for a more dynamic feel
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
 
-        //player input
+        //player input (fire)
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TempFire();
+        }
 
     }//end Update()
 
@@ -132,5 +143,18 @@ public class Hero : MonoBehaviour
         }
 
     }//end OnTriggerEnter()
+
+    public void TempFire()
+    {
+        GameObject projGo = Instantiate<GameObject>(projectilePrefab);
+        projGo.transform.position = transform.position;
+        Rigidbody rigidB = projGo.GetComponent<Rigidbody>();
+        rigidB.velocity = Vector3.up * projectileSpeed;
+    }
+
+    public void AddToScore(int score)
+    {
+        gm.UpdateScore(score);
+    }
 
 }

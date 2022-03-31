@@ -2,8 +2,8 @@
  * Created by: Akram Taghavi-Burris
  * Date Created: March 16, 2022
  * 
- * Last Edited by: NA
- * Last Edited: March 16, 2022
+ * Last Edited by: Ava Fritts
+ * Last Edited: March 30, 2022
  * 
  * Description: Enemy controler
 ****/
@@ -66,5 +66,21 @@ public class Enemy : MonoBehaviour
         tempPos.y -= speed * Time.deltaTime; //move temp position
         pos = tempPos; //position is equal to temporary position
     } //end Move
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject otherGo = collision.gameObject; //get a reference to what hit us
+        if(otherGo.tag == "Projectile Hero")
+        {
+            Debug.Log("Enemy Hit by projectile" + otherGo.name);
+            Destroy(otherGo);
+            Hero.SHIP.AddToScore(score);
+            Destroy(gameObject);
+        } 
+        else
+        {
+            Debug.Log("Enemy hit by this: " + otherGo.name);
+        }
+    }//end collision check
 
 }
